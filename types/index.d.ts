@@ -31,3 +31,22 @@ interface CreateProfile {
   isPremiumUser: boolean;
   recruiterInfo: { [key: string]: any };
 }
+
+interface Applicant {
+  name: string;
+  email: string;
+  userId: string;
+  status: string;
+}
+
+interface createNewJob {
+  companyName: string;
+  title: string;
+  type: string;
+  location: string;
+  experience: string;
+  jobDescription: string;
+  skills: string;
+  recruiterId: string;
+  applicants: Applicant[];
+}

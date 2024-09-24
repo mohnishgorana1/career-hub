@@ -15,6 +15,8 @@ export const createProfileAction = async (
     if (!newProfile) {
       console.log("Failed to create new Profile");
     }
+    console.log("Profile Created SuccessFully");
+    
     revalidatePath(pathToRevalidate);
   } catch (error) {
     console.log("Error Creating New Profile", error);

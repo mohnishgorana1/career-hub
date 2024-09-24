@@ -27,8 +27,6 @@ export const initalRecuiterFormData = {
   companyRole: "",
 };
 
-
-
 // CANDIDATE
 export const candidateOnboardFormConrols = [
   {
@@ -109,8 +107,8 @@ export const candidateOnboardFormConrols = [
     componentType: "INPUT",
   },
   {
-    label: "Linkedin Profile",
-    name: "linkedinProfile",
+    label: "Linked in Profile",
+    name: "linkedInProfile",
     placeholder: "Enter your Linkedin Profile Url ",
     componentType: "INPUT",
   },
@@ -122,21 +120,76 @@ export const candidateOnboardFormConrols = [
   },
 ];
 
-
 export const initialCandidateFormData = {
-    resume: "",
-    name: "",
-    currentJobLocation: "",
-    preferredJobLocation: "",
-    currentSalary: "",
-    noticePerios: "",
-    skills: "",
-    currentCompany: "",
-    previousCompanies: "",
-    totalExperience: "",
-    college: "",
-    collegeLocation: "",
-    graduatedYear: "",
-    linkedInProfile: "",
-    githubProfile: "",
-}
+  resume: "",
+  name: "",
+  currentCompany: "",
+  currentJobLocation: "",
+  preferredJobLocation: "",
+  currentSalary: "",
+  noticePeriod: "",
+  skills: "",
+  previousCompanies: "",
+  totalExperience: "",
+  college: "",
+  collegeLocation: "",
+  graduatedYear: "",
+  githubProfile: "",
+  linkedInProfile: "",
+};
+
+export const postNewJobFormControls = [
+  {
+    label: "Company Name",
+    name: "companyName",
+    placeholder: "Company Name",
+    componentType: "INPUT",
+    disabled: true,
+  },
+  {
+    label: "Title",
+    name: "title",
+    placeholder: "Job Title",
+    componentType: "INPUT",
+  },
+  {
+    label: "Type",
+    name: "type",
+    placeholder: "Job Type",
+    componentType: "INPUT",
+  },
+  {
+    label: "Location",
+    name: "location",
+    placeholder: "Job Location",
+    componentType: "INPUT",
+  },
+  {
+    label: "Experience",
+    name: "experience",
+    placeholder: "Required Experience",
+    componentType: "INPUT",
+  },
+  {
+    label: "Job Description",
+    name: "jobDescription",
+    placeholder: "Job Description",
+    componentType: "INPUT",
+  },
+  {
+    label: "Skills",
+    name: "skills",
+    placeholder: "Skills",
+    componentType: "INPUT",
+  },
+];
+
+export const initialPostNewJobFormData = {
+  companyName: "",
+  title: "",
+  type: "",
+  location: "",
+  experience: "",
+  jobDescription: "",
+  skills: "",
+};

@@ -15,13 +15,14 @@ export interface Profile extends Document {
     companyRole: string;
   };
   candidateInfo: {
+    resume: string;
     name: string;
+    currentCompany: string;
     currentJobLocation: string;
     preferredJobLocation: string;
     currentSalary: string;
     noticePeriod: string;
     skills: string;
-    currentCompany: string;
     previousCompanies: string;
     totalExperience: string;
     college: string;
@@ -29,7 +30,6 @@ export interface Profile extends Document {
     graduatedYear: string;
     githubProfile: string;
     linkedInProfile: string;
-    resume: string;
   };
 
   createdAt: Date;

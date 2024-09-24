@@ -88,7 +88,7 @@ function CommonForm({
   };
 
   return (
-    <form action={action}>
+    <form action={action} className="flex flex-col w-full">
       {formControls.map((control) => renderInputByComponentsType(control))}
       <div className="mt-6 w-full">
         <Button

@@ -2,10 +2,11 @@
 
 import { fetchProfileAction } from "@/lib/actions/profile.action";
 import { useUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function Home() {
+  const router = useRouter();
   const { user, isLoaded } = useUser();
   const [profileInfo, setProfileInfo] = useState<any>();
   const [isloading, setIsLoading] = useState(true);
@@ -26,8 +27,8 @@ function Home() {
     return <div>Loading...</div>; // Show loading state while fetching profile info
   }
 
-  if (!profileInfo?._id) {
-    redirect("/onboard");
+  if (!profileInfo) {
+    router.push('/onboard')
     return null; // Prevent rendering while redirecting
   }
 
