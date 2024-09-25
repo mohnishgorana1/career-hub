@@ -49,8 +49,10 @@ export const fetchAllJobsForCandidateAction = async () => {
 
   try {
     const result = await Job.find({});
+    console.log(result);
+    
     return JSON.parse(JSON.stringify(result));
-  } catch (error) {
+  } catch (error) { 
     console.log("Cant Fetch Jobs for Candidate", error);
     return {
       status: "404",
