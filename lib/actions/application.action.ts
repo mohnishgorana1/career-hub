@@ -128,7 +128,7 @@ export const updateApplicationAction = async (
   await dbConnect();
   try {
     const updatedApplication = await Application.findOneAndUpdate(
-      { candidateUserId: candidateUserId },
+      { candidateUserId: candidateUserId, jobId: jobId },
       { status: statusToUpdate },
       { new: true }
     );
@@ -173,11 +173,10 @@ export const updateApplicationAction = async (
       success: true,
       message: `Job Applicants status updated to ${statusToUpdate}`,
       updatedApplication,
-      updatedJobApplicantStatus
-    }
+      updatedJobApplicantStatus,
+    };
     revalidatePath(pathToRevalidate);
-    return JSON.parse(JSON.stringify(dataToReturn))
-    
+    return JSON.parse(JSON.stringify(dataToReturn));
   } catch (error) {
     console.log("Error Updating Application", error);
     return {
