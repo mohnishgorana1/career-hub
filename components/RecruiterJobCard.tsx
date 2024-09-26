@@ -30,7 +30,7 @@ function RecruiterJobCard({
     <div>
       <CommonCard
         icon={<JobIcon />}
-        title={jobItem?.title}
+        title={`${jobItem?.title} ${jobItem?._id}`}
         companyName={jobItem?.companyName}
         footerContent={
           <Button

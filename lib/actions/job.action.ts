@@ -49,7 +49,7 @@ export const fetchAllJobsForCandidateAction = async () => {
 
   try {
     const result = await Job.find({});
-    console.log(result);
+    console.log("fetchAllJobsForCandidateAction", result);
     
     return JSON.parse(JSON.stringify(result));
   } catch (error) { 

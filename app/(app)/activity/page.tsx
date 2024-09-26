@@ -1,9 +1,11 @@
-import React from 'react'
+import CandidateActivity from "@/components/CandidateActivity";
+import React from "react";
 
 function ActivityPage() {
+  
   return (
-    <div>ActivityPage</div>
+    <CandidateActivity />
   )
 }
 
-export default ActivityPage
+export default ActivityPage;
