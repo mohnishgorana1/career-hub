@@ -10,7 +10,7 @@ import {
 } from "@/lib/actions/job.action";
 import RecruiterJobCard from "./RecruiterJobCard";
 import CandidateJobCard from "./CandidateJobCard";
-import { fetchApplicationForCandidatesAction } from "@/lib/actions/application.action";
+import { fetchApplicationForCandidatesAction, fetchApplicationForRecruitersAction } from "@/lib/actions/application.action";
 
 function JobListing() {
   const { user, isLoaded } = useUser();
@@ -60,9 +60,7 @@ function JobListing() {
             await fetchApplicationForCandidatesAction(userId);
           setJobApplications(applicationsForCandidate);
         } else if (role === "recruiter") {
-          const applicationsForRecruiter = await fetchAllJobsForRecruiterAction(
-            userId
-          );
+          const applicationsForRecruiter = await fetchApplicationForRecruitersAction(userId);
           setJobApplications(applicationsForRecruiter);
         }
       } catch (error) {

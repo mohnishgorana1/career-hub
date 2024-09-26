@@ -23,6 +23,7 @@ interface JobApplicantsProps {
   setShowCurrentCandidateDetailsModal: Dispatch<SetStateAction<boolean>>; // Update type to accept boolean setter
   jobItem: any;
   jobApplications: any;
+  profileInfo: any
 }
 
 function JobApplicants({
@@ -34,7 +35,10 @@ function JobApplicants({
   setShowCurrentCandidateDetailsModal,
   jobItem,
   jobApplications,
+  profileInfo
 }: JobApplicantsProps) {
+  console.log("job", jobItem, jobApplications);
+  
   return (
     <Drawer open={showApplicantsDrawer} onOpenChange={setShowApplicantsDrawer}>
       <DrawerContent className="max-h-[50vh]">
@@ -46,6 +50,7 @@ function JobApplicants({
             jobItem = {jobItem}
             showCurrentCandidateDetailsModal = {showCurrentCandidateDetailsModal}
             setShowCurrentCandidateDetailsModal = {setShowCurrentCandidateDetailsModal}
+            profileInfo={profileInfo}
           />
         </ScrollArea>
       </DrawerContent>

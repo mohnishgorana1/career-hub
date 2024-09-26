@@ -57,6 +57,7 @@ function RecruiterJobCard({
         }
         jobItem = {jobItem}
         jobApplications={jobApplications}
+        profileInfo={profileInfo}
       />
     </div>
   );

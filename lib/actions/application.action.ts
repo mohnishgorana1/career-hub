@@ -42,7 +42,6 @@ export const createJobApplicationAction = async (
         { new: true }
       );
 
-      
       revalidatePath(pathToRevalidate);
     }
   } catch (error) {
@@ -107,6 +106,83 @@ export const fetchApplicationForRecruitersAction = async (
     return {
       success: false,
       message: "Error Fetching Jobs for Recruiters",
+    };
+  }
+};
+
+export const updateApplicationAction = async (
+  applicationUpdateData: any,
+  pathToRevalidate: string
+) => {
+  if (!applicationUpdateData) {
+    return {
+      success: false,
+      message:
+        "Invalid Request for updateApplication! Missing Request data at server end",
+    };
+  }
+
+  const { candidateUserId, statusToUpdate, jobId } = applicationUpdateData;
+  console.log("data", applicationUpdateData);
+
+  await dbConnect();
+  try {
+    const updatedApplication = await Application.findOneAndUpdate(
+      { candidateUserId: candidateUserId },
+      { status: statusToUpdate },
+      { new: true }
+    );
+    if (!updatedApplication) {
+      return {
+        success: false,
+        message: "Cann't update application",
+      };
+    } else {
+      console.log("Application updated to ", statusToUpdate);
+    }
+
+    const updatedJobApplicantStatus = await Job.findOneAndUpdate(
+      {
+        _id: jobId,
+        "applicants.userId": candidateUserId,
+      },
+      {
+        $set: { "applicants.$.status": statusToUpdate },
+      },
+      { new: true }
+    );
+    if (!updatedJobApplicantStatus) {
+      return {
+        success: false,
+        message: "Can't update job applicants status",
+      };
+    } else {
+      console.log("Job Applicants status updated to ", statusToUpdate);
+    }
+
+    console.log("response", {
+      success: true,
+      message: `Job Applicants status updated to ${statusToUpdate}`,
+      updatedApplication: JSON.parse(JSON.stringify(updatedApplication)),
+      updatedJobApplicantStatus: JSON.parse(
+        JSON.stringify(updatedJobApplicantStatus)
+      ),
+    });
+
+    const dataToReturn = {
+      success: true,
+      message: `Job Applicants status updated to ${statusToUpdate}`,
+      updatedApplication,
+      updatedJobApplicantStatus
+    }
+    revalidatePath(pathToRevalidate);
+    return JSON.parse(JSON.stringify(dataToReturn))
+    
+  } catch (error) {
+    console.log("Error Updating Application", error);
+    return {
+      success: false,
+      message: "Error Updating Application",
     };
   }
 };

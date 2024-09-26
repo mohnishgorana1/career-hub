@@ -14,7 +14,7 @@ export interface Job extends Document {
       name: string;
       email: string;
       userId: string;
-      status: "applied" | "selected" | "not selected";
+      status: "applied" | "selected" | "rejected";
     }
   ];
   createdAt: Date;

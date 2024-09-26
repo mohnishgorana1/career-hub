@@ -5,7 +5,7 @@ export interface Application extends Document {
   name: string;
   email: string;
   candidateUserId: string;
-  status: "not-applied" | "applied" | "selected";
+  status: "applied" | "selected" | "rejected";
   jobId: string;
   jobAppliedDate: Date;
   createdAt: Date;
@@ -26,7 +26,6 @@ const applicationSchema = new mongoose.Schema<Application>({
   },
   status: {
     type: String,
-    default: "not-applied" 
   },
   jobId: {
     type: String,
