@@ -44,11 +44,29 @@ export const fetchAllJobsForRecruiterAction = async (
 };
 
 //                                          2. candidate(all jobs) seperate
-export const fetchAllJobsForCandidateAction = async () => {
+
+export const fetchAllJobsForCandidateAction = async (filterParams: any) => {
   await dbConnect();
 
+  const query: any = {};
+  if (filterParams.companyName && filterParams.companyName.length > 0) {
+    query.companyName = { $in: filterParams.companyName };
+  }
+  if (filterParams.title && filterParams.title.length > 0) {
+    query.title = { $in: filterParams.title };
+  }
+  if (filterParams.type && filterParams.type.length > 0) {
+    query.type = { $in: filterParams.type };
+  }
+  if (filterParams.location && filterParams.location.length > 0) {
+    query.location = { $in: filterParams.location };
+  }
+  console.log("query", query);
+  
+
+
   try {
-    const result = await Job.find({});
+    const result = await Job.find(query);
     console.log("fetchAllJobsForCandidateAction", result);
 
     return JSON.parse(JSON.stringify(result));
@@ -63,13 +81,11 @@ export const fetchAllJobsForCandidateAction = async () => {
 
 // filter
 export const createFilterCategoryAction = async () => {
-  
   try {
     await dbConnect();
     const result = await Job.find({});
 
-
-    console.log("",result);
+    console.log("", result);
 
     return JSON.parse(JSON.stringify(result));
   } catch (error) {

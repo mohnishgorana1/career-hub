@@ -1,3 +1,5 @@
+import qs from 'query-string'
+
 // RECRUITER
 
 export const recruiterOnboardFormControls = [
@@ -212,3 +214,16 @@ export const filterMenusDataArray = [
     name: "Location",
   },
 ];
+
+
+// export function formUrlQuery({params, dataToAdd}){
+//   let currentUrl = qs.parse(params)
+
+//   if(Object.keys(dataToAdd).length > 0){
+//     Object.keys(dataToAdd).map(key => {
+//       if(dataToAdd[key].length === 0) delete currentUrl[key]
+//       else currentUrl[key] = dataToAdd[key].join(",")
+//     })
+//   }
+
+// }

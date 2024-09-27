@@ -16,6 +16,22 @@ import {
   fetchApplicationForRecruitersAction,
 } from "@/lib/actions/application.action";
 import { filterMenusDataArray } from "@/utils";
+import {
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
+import { Label } from "./ui/label";
 
 function JobListing() {
   const { user, isLoaded } = useUser();
@@ -25,7 +41,8 @@ function JobListing() {
   const [jobApplications, setJobApplications] = useState();
 
   const [filterCategories, setFilterCategories] = useState();
-  const [filterMenus, setFilterMenus] = useState()
+  const [filterMenus, setFilterMenus] = useState();
+  const [filterParams, setFilterParams] = useState({});
 
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,20 +61,23 @@ function JobListing() {
   }, [user]);
 
   // Fetch jobs based on user role
-  const fetchJobs = useCallback(async (role: string, userId: string) => {
-    try {
-      let jobs;
-      if (role === "candidate") {
-        jobs = await fetchAllJobsForCandidateAction();
-      } else {
-        jobs = await fetchAllJobsForRecruiterAction(userId);
+  const fetchJobs = useCallback(
+    async (role: string, userId: string, filters: any) => {
+      try {
+        let jobs;
+        if (role === "candidate") {
+          jobs = await fetchAllJobsForCandidateAction(filters);
+        } else {
+          jobs = await fetchAllJobsForRecruiterAction(userId);
+        }
+        setJobList(jobs || []);
+      } catch (error) {
+        setHasError(true);
+        console.error("Error fetching jobs:", error);
       }
-      setJobList(jobs || []);
-    } catch (error) {
-      setHasError(true);
-      console.error("Error fetching jobs:", error);
-    }
-  }, []);
+    },
+    []
+  );
 
   // fetch Applications
   const fetchJobApplications = useCallback(
@@ -92,15 +112,48 @@ function JobListing() {
   const createFilterMenus = () => {
     const menus = filterMenusDataArray.map((item) => ({
       id: item.id,
-      name: item.label,
+      name: item.name,
       options: [
         ...new Set(filterCategories.map((listItem) => listItem[item.id])),
       ],
     }));
-    console.log(menus);
-    
-    setFilterMenus(menus)
+    console.log("menus", menus);
+
+    setFilterMenus(menus);
   };
+
+  function handleFilter(filterMenuSectionId: any, currentOption: any) {
+    console.log("filterParams", filterParams);
+
+    console.log("filter request", filterMenuSectionId, currentOption);
+
+    let cpyFilterParams = { ...filterParams };
+
+    const indexOfCurrentSection =
+      Object.keys(cpyFilterParams).indexOf(filterMenuSectionId);
+
+    if (indexOfCurrentSection === -1) {
+      cpyFilterParams = {
+        ...cpyFilterParams,
+        [filterMenuSectionId]: [currentOption], // title: dataAnalytics
+      };
+    } else {
+      const indexOfCurrentOption =
+        cpyFilterParams[filterMenuSectionId].indexOf(currentOption);
+
+      if (indexOfCurrentOption === -1) {
+        cpyFilterParams[filterMenuSectionId].push(currentOption);
+      } else {
+        cpyFilterParams[filterMenuSectionId].splice(indexOfCurrentOption, 1);
+      }
+    }
+
+    console.log("cpyFilterParams", cpyFilterParams);
+
+    setFilterParams(cpyFilterParams);
+    sessionStorage.setItem("filterParams", JSON.stringify(cpyFilterParams));
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       if (isLoaded && user) {
@@ -112,12 +165,14 @@ function JobListing() {
 
   useEffect(() => {
     if (profileInfo?.role && user?.id) {
-      fetchJobs(profileInfo.role, user.id).finally(() => setIsLoading(false));
+      fetchJobs(profileInfo.role, user.id, filterParams).finally(() =>
+        setIsLoading(false)
+      );
       fetchJobApplications(profileInfo.role, user.id).finally(() =>
         setIsLoading(false)
       );
     }
-  }, [profileInfo, user, fetchJobs]);
+  }, [profileInfo, user, fetchJobs, filterParams]);
 
   useEffect(() => {
     if (jobList) {
@@ -149,9 +204,43 @@ function JobListing() {
                 ? "Explore All Jobs"
                 : "Jobs Dashboard"}
             </h1>
+
             <div className="flex items-center">
               {profileInfo?.role === "candidate" ? (
-                <p>Filter</p>
+                <Menubar>
+                  {filterMenus &&
+                    filterMenus.map((filterMenu, idx) => (
+                      <MenubarMenu key={idx}>
+                        <MenubarTrigger>{filterMenu.name}</MenubarTrigger>
+                        <MenubarContent>
+                          {filterMenu.options.map((option, optionIdx) => (
+                            <MenubarItem
+                              key={optionIdx}
+                              onClick={() =>
+                                handleFilter(filterMenu.id, option)
+                              }
+                              className="flex items-center "
+                            >
+                              <div
+                                className={`h-4 w-4 dark:border-white border rounded border-gray-900 ${
+                                  filterParams &&
+                                  Object.keys(filterParams).length > 0 &&
+                                  filterParams[filterMenu.id] &&
+                                  filterParams[filterMenu.id].indexOf(option) >
+                                    -1
+                                    ? "bg-black dark:bg-white"
+                                    : ""
+                                } `}
+                              />
+                              <Label className="ml-3 cursor-pointer text-sm text-gray-600">
+                                {option}
+                              </Label>
+                            </MenubarItem>
+                          ))}
+                        </MenubarContent>
+                      </MenubarMenu>
+                    ))}
+                </Menubar>
               ) : (
                 <PostNewJob profileInfo={profileInfo} />
               )}

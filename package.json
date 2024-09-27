@@ -24,6 +24,7 @@
     "lucide-react": "^0.445.0",
     "mongoose": "^8.6.3",
     "next": "14.2.13",
+    "query-string": "^9.1.0",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.5.2",
