@@ -5,22 +5,30 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PostNewJob from "./PostNewJob";
 import Loading from "@/app/Loading";
 import {
+  createFilterCategoryAction,
   fetchAllJobsForCandidateAction,
   fetchAllJobsForRecruiterAction,
 } from "@/lib/actions/job.action";
 import RecruiterJobCard from "./RecruiterJobCard";
 import CandidateJobCard from "./CandidateJobCard";
-import { fetchApplicationForCandidatesAction, fetchApplicationForRecruitersAction } from "@/lib/actions/application.action";
+import {
+  fetchApplicationForCandidatesAction,
+  fetchApplicationForRecruitersAction,
+} from "@/lib/actions/application.action";
+import { filterMenusDataArray } from "@/utils";
 
 function JobListing() {
   const { user, isLoaded } = useUser();
   const [profileInfo, setProfileInfo] = useState<any>();
-  // const [isProfileFetched, setIsProfileFetched] = useState(false);
+
   const [jobList, setJobList] = useState();
+  const [jobApplications, setJobApplications] = useState();
+
+  const [filterCategories, setFilterCategories] = useState();
+  const [filterMenus, setFilterMenus] = useState()
+
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [jobApplications, setJobApplications] = useState();
 
   // Memoized profile fetching function
   const fetchProfile = useCallback(async () => {
@@ -60,7 +68,8 @@ function JobListing() {
             await fetchApplicationForCandidatesAction(userId);
           setJobApplications(applicationsForCandidate);
         } else if (role === "recruiter") {
-          const applicationsForRecruiter = await fetchApplicationForRecruitersAction(userId);
+          const applicationsForRecruiter =
+            await fetchApplicationForRecruitersAction(userId);
           setJobApplications(applicationsForRecruiter);
         }
       } catch (error) {
@@ -71,6 +80,27 @@ function JobListing() {
     []
   );
 
+  // fetch Filters
+  const fetchFilterCategories = useCallback(async () => {
+    if (!jobList) return;
+
+    const filterResult = await createFilterCategoryAction();
+    setFilterCategories(filterResult);
+  }, [jobList]);
+
+  // create filters
+  const createFilterMenus = () => {
+    const menus = filterMenusDataArray.map((item) => ({
+      id: item.id,
+      name: item.label,
+      options: [
+        ...new Set(filterCategories.map((listItem) => listItem[item.id])),
+      ],
+    }));
+    console.log(menus);
+    
+    setFilterMenus(menus)
+  };
   useEffect(() => {
     const fetchData = async () => {
       if (isLoaded && user) {
@@ -89,46 +119,17 @@ function JobListing() {
     }
   }, [profileInfo, user, fetchJobs]);
 
-  // useEffect(() => {
-  //   if (isLoaded && user) {
-  //     const getProfileDetails = async () => {
-  //       const data = await fetchProfileAction(user.id);
-  //       setProfileInfo(data);
-  //       setIsProfileFetched(true);
-  //       return data;
-  //     };
-  //     const getJobs = async () => {
-  //       const profileData = await fetchProfileAction(user.id);
-  //       try {
-  //         console.log("profile Info", profileData);
-  //         const jobs =
-  //           profileData && profileData?.role === "candidate"
-  //             ? await fetchAllJobsForCandidateAction()
-  //             : await fetchAllJobsForRecruiterAction(user?.id);
-  //         console.log("Jobs fetched:", jobs);
-  //         setJobList(jobs); // Set the fetched jobs in state
-  //       } catch (error) {
-  //         console.error("Error fetching jobs:", error);
-  //       }
-  //     };
-  //     getProfileDetails();
-  //     getJobs();
-  //   }
-  // }, [isLoaded, user]);
+  useEffect(() => {
+    if (jobList) {
+      fetchFilterCategories();
+    }
+  }, [jobList]);
 
-  // if (!isProfileFetched) {
-  //   return <Loading />;
-  // }
-  // if (!jobList) {
-  //   return (
-  //     <>
-  //       <h1>Loading Jobs</h1>
-  //       <Loading />;
-  //     </>
-  //   );
-  // }
-
-  // Memoize JSX for job list
+  useEffect(() => {
+    if (filterCategories) {
+      createFilterMenus();
+    }
+  }, [filterCategories]);
 
   if (isLoading) {
     return <Loading />;

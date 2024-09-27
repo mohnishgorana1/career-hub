@@ -193,3 +193,22 @@ export const initialPostNewJobFormData = {
   jobDescription: "",
   skills: "",
 };
+
+export const filterMenusDataArray = [
+  {
+    id: "companyName",
+    name: "Company Name",
+  },
+  {
+    id: "title",
+    name: "Title",
+  },
+  {
+    id: "type",
+    name: "Type",
+  },
+  {
+    id: "location",
+    name: "Location",
+  },
+];

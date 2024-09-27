@@ -24,26 +24,14 @@ function ActivityListItem({ jobApplication }) {
   } = jobApplication?.jobDetails;
   const totalApplicantsToJob = jobApplication?.jobDetails?.applicants.length;
 
-  console.log(
-    "jobApplicationListItem",
-    status,
-    jobAppliedDate,
-    experience,
-    jobDescription,
-    location,
-    skills,
-    title,
-    type,
-    totalApplicantsToJob
-  );
   let cardShadowColor;
   if (status === "selected") {
-    cardShadowColor = "shadow-teal-400 hover:shadow-lg hover:shadow-teal-400";
+    cardShadowColor = "shadow-green-600 hover:shadow-lg hover:shadow-green-700";
   } else if (status === "rejected") {
-    cardShadowColor = "shadow-red-500 hover:shadow-lg hover:shadow-red-500";
+    cardShadowColor = "shadow-red-500 hover:shadow-lg hover:shadow-red-700";
   } else if (status === "applied") {
     cardShadowColor =
-      "shadow-slate-500 hover:shadow-lg hover:shadow-slate-500 ";
+      "shadow-blue-500 hover:shadow-lg hover:shadow-blue-700 ";
   } else {
     cardShadowColor = "shadow-blue-500 hover:shadow-lg hover:shadow-blue-500";
   }

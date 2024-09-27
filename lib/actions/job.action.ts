@@ -50,13 +50,33 @@ export const fetchAllJobsForCandidateAction = async () => {
   try {
     const result = await Job.find({});
     console.log("fetchAllJobsForCandidateAction", result);
-    
+
     return JSON.parse(JSON.stringify(result));
-  } catch (error) { 
+  } catch (error) {
     console.log("Cant Fetch Jobs for Candidate", error);
     return {
       status: "404",
-      message: "Cant Fetch Jobs for Candidate"
-    }
+      message: "Cant Fetch Jobs for Candidate",
+    };
+  }
+};
+
+// filter
+export const createFilterCategoryAction = async () => {
+  
+  try {
+    await dbConnect();
+    const result = await Job.find({});
+
+
+    console.log("",result);
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (error) {
+    console.log("Error Creating Filter", error);
+    return {
+      status: "500",
+      message: "Error Creating Filter",
+    };
   }
 };
