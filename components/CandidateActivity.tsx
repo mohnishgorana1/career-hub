@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CommonCard from "./CommonCard";
 import JobIcon from "./JobIcon";
 import { Button } from "./ui/button";
+import ActivityListItem from "./ActivityListItem";
 
 function CandidateActivity() {
   const { user, isLoaded } = useUser();
@@ -216,41 +217,36 @@ function CandidateActivity() {
             <div className="flex flex-col gap-4">
               <TabsContent value="applied">
                 <ul className="flex flex-col gap-y-2">
-                  {appliedJobApplication?.map((appliedJob, idx) => (
-                    <CommonCard
+                  {appliedJobApplication?.map((appliedJobApplication, idx) => (
+                    <ActivityListItem
                       key={idx}
-                      companyName={appliedJob?.jobDetails?.companyName}
-                      icon={<JobIcon />}
-                      title={appliedJob?.jobDetails?.title}
-                      footerContent={<Button>Applied Successfully</Button>}
+                      jobApplication={appliedJobApplication}
                     />
                   ))}
                 </ul>
               </TabsContent>
               <TabsContent value="selected">
                 <ul className="flex flex-col gap-y-2">
-                  {selectedJobApplications?.map((selectedJob, idx) => (
-                    <CommonCard
-                      key={idx}
-                      companyName={selectedJob?.jobDetails?.companyName}
-                      icon={<JobIcon />}
-                      title={selectedJob?.jobDetails?.title}
-                      footerContent={<Button className="bg-green-600 hover:bg-green-700">Selected</Button>}
-                    />
-                  ))}
+                  {selectedJobApplications?.map(
+                    (selectedJobApplication, idx) => (
+                      <ActivityListItem
+                        key={idx}
+                        jobApplication={selectedJobApplication}
+                      />
+                    )
+                  )}
                 </ul>
               </TabsContent>
               <TabsContent value="rejected">
                 <ul className="flex flex-col gap-y-2">
-                  {rejectedJobApplications?.map((rejected, idx) => (
-                    <CommonCard
-                      key={idx}
-                      companyName={rejected?.jobDetails?.companyName}
-                      icon={<JobIcon />}
-                      title={rejected?.jobDetails?.title}
-                      footerContent={<Button className="bg-red-600 hover:bg-red-700">Rejected</Button>}
-                    />
-                  ))}
+                  {rejectedJobApplications?.map(
+                    (rejectedJobApplication, idx) => (
+                      <ActivityListItem
+                        key={idx}
+                        jobApplication={rejectedJobApplication}
+                      />
+                    )
+                  )}
                 </ul>
               </TabsContent>
             </div>
