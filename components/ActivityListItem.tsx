@@ -53,26 +53,26 @@ function ActivityListItem({ jobApplication }) {
   return (
     <Card className={`shadow-md ${cardShadowColor}`}>
       <CardHeader>
-        <section className="flex justify-between">
-          <div className="flex gap-6 items-center">
+        <section className="flex flex-col md:items-baseline md:flex-row md:justify-between">
+          <div className="flex items-baseline gap-x-4">
             <JobIcon />
-            <div className="flex gap-10 items-baseline">
-              <CardTitle className=" font-bold text-3xl">
-                {title && `${title}`}
-              </CardTitle>
-              <div
-                className={`${applicationBadgeBgColor} px-4 py-[2px] rounded-md text-white capitalize text-sm`}
-              >
-                {status}
-              </div>
-            </div>
+            <CardTitle className=" font-bold text-3xl">
+              {title && `${title}`}
+            </CardTitle>
           </div>
-          <div className="text-blue-500 font-bold">
-            Total Applicants: {totalApplicantsToJob}
+          <div className="ml-14 flex items-baseline gap-x-4 justify-between">
+            <div
+              className={`${applicationBadgeBgColor} px-4 py-[2px] rounded-md text-white capitalize text-sm`}
+            >
+              {status}
+            </div>
+            <div className="text-blue-500 font-bold">
+              Total Applicants: {totalApplicantsToJob}
+            </div>
           </div>
         </section>
       </CardHeader>
-      <CardContent>
+      <CardContent className="mt-2">
         <CardDescription className="font-bold text-gray-800 text-lg">
           <h1>
             Job Description:{" "}
@@ -116,7 +116,8 @@ function ActivityListItem({ jobApplication }) {
       <CardFooter className="flex flex-row-reverse justify-between">
         <div className="text-xs">
           <h1 className="text-gray-950 font-semibold">
-            Applied: <span className="font-normal">{timeAgo(jobAppliedDate)}</span>
+            Applied:{" "}
+            <span className="font-normal">{timeAgo(jobAppliedDate)}</span>
           </h1>
         </div>
       </CardFooter>
