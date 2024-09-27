@@ -156,51 +156,14 @@ function CandidateActivity() {
   }, [myJobApplications, segregateApplicationsByStatus, jobList]);
 
   return (
-    // <div className="mx-auto max-w-7xl">
-    //   <h1>Candidate Activity</h1>
-    //   <div className="flex items-center justify-between gap-x-8">
-    //     <div className="flex flex-col gap-y-2">
-    //       <h1>Applied</h1>
-    //       <ul className="flex items-end text-gray-700">
-    //         {appliedJobApplication?.map((appliedJob, idx) => (
-    //           <li key={idx}>
-    //             JOB ID {appliedJob.jobId} {appliedJob.status}
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </div>
-
-    //     <div className="flex flex-col gap-y-2">
-    //       <h1>Selected</h1>
-    //       <ul className="flex items-end text-green-700">
-    //         {selectedJobApplications?.map((selectedJob, idx) => (
-    //           <li key={idx}>
-    //             JOB ID {selectedJob.jobId} {selectedJob.status}
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </div>
-
-    //     <div className="flex flex-col gap-y-2">
-    //       <h1>Rejected</h1>
-    //       <ul className="flex items-end text-red-700">
-    //         {rejectedJobApplications?.map((rejectedJob, idx) => (
-    //           <li key={idx}>
-    //             JOB ID {rejectedJob.jobId} {rejectedJob.status}
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </div>
-    //   </div>
-    // </div>
-
     <div className="mx-auto max-w-7xl">
-      <Tabs defaultValue="Applied" className="w-full">
-        <div className="flex items-baseline justify-between border-b pb-6 pt-24">
+      <Tabs defaultValue="applied" className="w-full">
+
+        <div className="flex items-baseline justify-between flex-col md:flex-row border-b pb-6 md:pt-24 pt-12 gap-y-8">
           <h1 className="text-4xl font-bold tracking-tight text-gray-950">
-            You Activity
+            You Activities
           </h1>
-          <TabsList className="grid grid-cols-3 bg-black">
+          <TabsList className="grid grid-cols-3 bg-black self-center">
             <TabsTrigger value="applied" className="text-gray-700">
               Applied
             </TabsTrigger>
@@ -212,11 +175,12 @@ function CandidateActivity() {
             </TabsTrigger>
           </TabsList>
         </div>
+
         <div className="pb-24 pt-6">
           <div className="container mx-auto p-0 space-y-8">
             <div className="flex flex-col gap-4">
               <TabsContent value="applied">
-                <ul className="flex flex-col gap-y-2">
+                <ul className="flex flex-col gap-y-5">
                   {appliedJobApplication?.map((appliedJobApplication, idx) => (
                     <ActivityListItem
                       key={idx}
@@ -226,7 +190,7 @@ function CandidateActivity() {
                 </ul>
               </TabsContent>
               <TabsContent value="selected">
-                <ul className="flex flex-col gap-y-2">
+                <ul className="flex flex-col gap-y-5">
                   {selectedJobApplications?.map(
                     (selectedJobApplication, idx) => (
                       <ActivityListItem
@@ -238,7 +202,7 @@ function CandidateActivity() {
                 </ul>
               </TabsContent>
               <TabsContent value="rejected">
-                <ul className="flex flex-col gap-y-2">
+                <ul className="flex flex-col gap-y-5">
                   {rejectedJobApplications?.map(
                     (rejectedJobApplication, idx) => (
                       <ActivityListItem

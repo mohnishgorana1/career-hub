@@ -13,8 +13,15 @@ import { timeAgo } from "@/utils/utilityFunctions";
 
 function ActivityListItem({ jobApplication }) {
   const { status, jobAppliedDate } = jobApplication;
-  const { experience, jobDescription, location, skills, title, type } =
-    jobApplication?.jobDetails;
+  const {
+    experience,
+    jobDescription,
+    location,
+    skills,
+    title,
+    type,
+    companyName,
+  } = jobApplication?.jobDetails;
   const totalApplicantsToJob = jobApplication?.jobDetails?.applicants.length;
 
   console.log(
@@ -31,38 +38,40 @@ function ActivityListItem({ jobApplication }) {
   );
   let cardShadowColor;
   if (status === "selected") {
-    cardShadowColor = "shadow-teal-400";
+    cardShadowColor = "shadow-teal-400 hover:shadow-lg hover:shadow-teal-400";
   } else if (status === "rejected") {
-    cardShadowColor = "shadow-red-500";
+    cardShadowColor = "shadow-red-500 hover:shadow-lg hover:shadow-red-500";
   } else if (status === "applied") {
-    cardShadowColor = "shadow-slate-500 ";
+    cardShadowColor =
+      "shadow-slate-500 hover:shadow-lg hover:shadow-slate-500 ";
   } else {
-    cardShadowColor = "shadow-blue-500";
+    cardShadowColor = "shadow-blue-500 hover:shadow-lg hover:shadow-blue-500";
   }
 
   let applicationBadgeBgColor;
   if (status === "selected") {
-    applicationBadgeBgColor = "bg-teal-800";
+    applicationBadgeBgColor = "bg-green-700";
   } else if (status === "rejected") {
-    applicationBadgeBgColor = "bg-red-500";
+    applicationBadgeBgColor = "bg-red-600";
   } else if (status === "applied") {
-    applicationBadgeBgColor = "bg-slate-800 ";
+    applicationBadgeBgColor = "bg-blue-800 ";
   } else {
     applicationBadgeBgColor = "bg-blue-500";
   }
   return (
-    <Card className={`shadow-md ${cardShadowColor}`}>
+    <Card className={`shadow-md ${cardShadowColor} duration-300`}>
       <CardHeader>
-        <section className="flex flex-col md:items-baseline md:flex-row md:justify-between">
-          <div className="flex items-baseline gap-x-4">
+        <section className="flex flex-col md:items-baseline md:flex-row md:justify-between gap-y-3">
+          <div className="flex items-center gap-x-4">
             <JobIcon />
-            <CardTitle className=" font-bold text-3xl">
-              {title && `${title}`}
+            <CardTitle className="flex flex-col gap-y-1">
+              <h1 className="font-bold text-3xl">{title && `${title}`}</h1>
+              <p className="font-extrabold text-gray-600">{companyName && `${companyName}`}</p>
             </CardTitle>
           </div>
           <div className="ml-14 flex items-baseline gap-x-4 justify-between">
             <div
-              className={`${applicationBadgeBgColor} px-4 py-[2px] rounded-md text-white capitalize text-sm`}
+              className={`${applicationBadgeBgColor} px-4 pt-[2px] pb-[4px] rounded-md text-white capitalize text-sm`}
             >
               {status}
             </div>
