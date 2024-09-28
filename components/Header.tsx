@@ -51,7 +51,7 @@ function Header({ profileInfo }: any) {
     {
       label: "Membership",
       path: "/membership",
-      show: currentUser,
+      show: profileInfo?.role === "recruiter",
     },
     {
       label: "Account",

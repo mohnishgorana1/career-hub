@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CommonForm from "./CommonForm";
 import {
-  candidateOnboardFormConrols,
-  initalRecuiterFormData,
+  candidateOnboardFormControls,
+  initialRecruiterFormData,
   initialCandidateFormData,
   recruiterOnboardFormControls,
 } from "@/utils";
@@ -26,7 +26,7 @@ function OnBoard() {
 
   // RECRUITER_FORMDATA : name, companyName, companyRole
   const [recruiterFormData, setRecruiterFormData] = useState(
-    initalRecuiterFormData
+    initialRecruiterFormData
   );
   const [candidateFormData, setCandidateFormData] = useState(
     initialCandidateFormData
@@ -127,7 +127,7 @@ function OnBoard() {
 
           <TabsContent value="candidate">
             <CommonForm
-              formControls={candidateOnboardFormConrols}
+              formControls={candidateOnboardFormControls}
               buttonText={"Onboard as Candidate"}
               formData={candidateFormData}
               setFormData={setCandidateFormData}

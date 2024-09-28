@@ -1,9 +1,12 @@
-import React from 'react'
+import AccountInfo from "@/components/AccountInfo";
+import React from "react";
 
 function AccountPage() {
   return (
-    <div>AccountPage</div>
-  )
+    <main className="">
+      <AccountInfo />
+    </main>
+  );
 }
 
-export default AccountPage
+export default AccountPage;

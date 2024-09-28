@@ -22,6 +22,7 @@ interface CommonFormType {
   formData?: { [key: string]: any }; // Object for form field values
   setFormData?: (data: { [key: string]: any }) => void; // Function to update form data
   handleFileChange?: (event: React.ChangeEvent<HTMLInputElement>) => void; // File input change handler
+  isShowLoadingButton: boolean
 }
 
 interface CreateProfile {
