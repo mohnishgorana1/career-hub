@@ -7,7 +7,7 @@ function JobIcon() {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        class="w-10 h-10 mb-4 text-gray-900"
+        class="w-10 h-10 mb-4 text-gray-900 dark:text-white"
       >
         <path
           fill-rule="evenodd"

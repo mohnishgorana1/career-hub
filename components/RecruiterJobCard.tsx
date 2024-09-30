@@ -36,7 +36,7 @@ function RecruiterJobCard({
           <Button
             className={`${
               applicants <= 0
-                ? "bg-red-700 hover:bg-red-900 disabled:opacity-45"
+                ? "bg-red-700 hover:bg-red-900 dark:text-white disabled:opacity-45 "
                 : "bg-green-600 hover:bg-green-700"
             }`}
             disabled={applicants <= 0}

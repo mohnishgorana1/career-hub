@@ -1,7 +1,7 @@
 "use client";
 import { fetchProfileAction } from "@/lib/actions/profile.action";
 import { useUser } from "@clerk/nextjs";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PostNewJob from "./PostNewJob";
 import Loading from "@/app/Loading";
 import {
@@ -18,20 +18,13 @@ import {
 import { filterMenusDataArray } from "@/utils";
 import {
   Menubar,
-  MenubarCheckboxItem,
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { Label } from "./ui/label";
+import { Skeleton } from "./ui/skeleton";
 
 function JobListing() {
   const { user, isLoaded } = useUser();
@@ -198,48 +191,60 @@ function JobListing() {
     return (
       <div className="">
         <div className="mx-auto max-w-7xl">
-          <div className="flex items-baseline justify-between border-b border-gray-200 pt-6 pb-24">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <div className="flex flex-col sm:flex-row items-center gap-y-4 justify-between border-b border-gray-200 pt-6 pb-16">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white my-5 border-b">
               {profileInfo?.role === "candidate"
                 ? "Explore All Jobs"
                 : "Jobs Dashboard"}
             </h1>
 
-            <div className="flex items-center">
+            <div className="flex items-center dark:text-white">
               {profileInfo?.role === "candidate" ? (
-                <Menubar>
+                <Menubar className="border border-black dark:border-white w-[95vw] md:w-auto">
                   {filterMenus &&
-                    filterMenus.map((filterMenu, idx) => (
-                      <MenubarMenu key={idx}>
-                        <MenubarTrigger>{filterMenu.name}</MenubarTrigger>
-                        <MenubarContent>
-                          {filterMenu.options.map((option, optionIdx) => (
-                            <MenubarItem
-                              key={optionIdx}
-                              onClick={() =>
-                                handleFilter(filterMenu.id, option)
-                              }
-                              className="flex items-center "
+                    filterMenus.map((filterMenu, idx) => {
+                      const size = filterMenus.length;
+                      return (
+                        <MenubarMenu key={idx}>
+                          <div>
+                            <MenubarTrigger
+                              className={`truncate rounded-none border-r border-r-black dark:border-r-white ${
+                                idx === size - 1 && "border-none "
+                              }`}
                             >
-                              <div
-                                className={`h-4 w-4 dark:border-white border rounded border-gray-900 ${
-                                  filterParams &&
-                                  Object.keys(filterParams).length > 0 &&
-                                  filterParams[filterMenu.id] &&
-                                  filterParams[filterMenu.id].indexOf(option) >
-                                    -1
-                                    ? "bg-black dark:bg-white"
-                                    : ""
-                                } `}
-                              />
-                              <Label className="ml-3 cursor-pointer text-sm text-gray-600">
-                                {option}
-                              </Label>
-                            </MenubarItem>
-                          ))}
-                        </MenubarContent>
-                      </MenubarMenu>
-                    ))}
+                              {filterMenu.name.split(" ")[0]}
+                            </MenubarTrigger>
+                          </div>
+                          <MenubarContent>
+                            {filterMenu.options.map((option, optionIdx) => (
+                              <MenubarItem
+                                key={optionIdx}
+                                onClick={() =>
+                                  handleFilter(filterMenu.id, option)
+                                }
+                                className="flex items-center "
+                              >
+                                <div
+                                  className={`h-4 w-4 dark:border-white border rounded border-gray-900 ${
+                                    filterParams &&
+                                    Object.keys(filterParams).length > 0 &&
+                                    filterParams[filterMenu.id] &&
+                                    filterParams[filterMenu.id].indexOf(
+                                      option
+                                    ) > -1
+                                      ? "bg-black dark:bg-white"
+                                      : ""
+                                  } `}
+                                />
+                                <Label className="ml-3 cursor-pointer text-sm text-gray-600 dark:text-gray-400">
+                                  {option}
+                                </Label>
+                              </MenubarItem>
+                            ))}
+                          </MenubarContent>
+                        </MenubarMenu>
+                      );
+                    })}
                 </Menubar>
               ) : (
                 <PostNewJob profileInfo={profileInfo} />
@@ -273,7 +278,7 @@ function JobListing() {
                     ) : (
                       // show job cards
                       <>
-                        <p>No Jobs Please Create a new Job</p>
+                        <Skeleton className="bg-zinc-500 mt-5" />
                       </>
                     )}
                   </div>

@@ -29,6 +29,7 @@ function CandidateActivity() {
   const fetchProfile = useCallback(async () => {
     try {
       if (user) {
+        console.log("user");
         const profileData = await fetchProfileAction(user.id);
         setProfileInfo(profileData);
       }
@@ -40,7 +41,7 @@ function CandidateActivity() {
 
   const fetchJobs = useCallback(async () => {
     try {
-      const jobs = await fetchAllJobsForCandidateAction();
+      const jobs = await fetchAllJobsForCandidateAction({});
       setJobList(jobs || "No Jobs");
     } catch (error) {
       setHasError(true);

@@ -121,7 +121,8 @@ function CandidateList({
                 </Button>
               </div>
             </div>
-          ))}
+          )
+        )}
       </div>
 
       <Dialog
