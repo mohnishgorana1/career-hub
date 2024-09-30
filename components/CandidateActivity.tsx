@@ -157,14 +157,15 @@ function CandidateActivity() {
   }, [myJobApplications, segregateApplicationsByStatus, jobList]);
 
   return (
-    <div className="mx-auto max-w-7xl">
-      <Tabs defaultValue="applied" className="w-full">
+    <div className="mx-auto sm:max-w-7xl">
+      <Tabs defaultValue="applied" className="w-full p-0">
 
-        <div className="flex items-baseline justify-between flex-col md:flex-row border-b pb-6 md:pt-24 pt-12 gap-y-8">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-950">
+        <div className="flex items-baseline justify-between flex-col md:flex-row border-b pb-3 md:pt-24 pt-12 gap-y-8">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-950 dark:text-white">
             You Activities
           </h1>
-          <TabsList className="grid grid-cols-3 bg-black self-center">
+
+          <TabsList className="grid grid-cols-3 bg-black dark:bg-white self-center">
             <TabsTrigger value="applied" className="text-gray-700">
               Applied
             </TabsTrigger>
@@ -179,7 +180,7 @@ function CandidateActivity() {
 
         <div className="pb-24 pt-6">
           <div className="container mx-auto p-0 space-y-8">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-y-4">
               <TabsContent value="applied">
                 <ul className="flex flex-col gap-y-5">
                   {appliedJobApplication?.map((appliedJobApplication, idx) => (

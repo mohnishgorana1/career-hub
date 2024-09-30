@@ -140,7 +140,7 @@ function Header({ profileInfo }: any) {
         </div>
 
         {/* desktop */}
-        <div className="hidden lg:flex items-center gap-x-12 ">
+        <div className="hidden md:flex items-center gap-x-12 ">
           <nav className="flex gap-x-8 items-center">
             {menuItems.map(
               (menuItem, idx) =>

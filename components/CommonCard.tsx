@@ -11,7 +11,7 @@ import {
 
 function CommonCard({icon, title, companyName, footerContent}) {
   return (
-    <Card className="flex bg-gray-100 dark:bg-gray-900 flex-col gap-6 rounded-2xl p-8 transition duration-300 hover:bg-gray-200 dark:hover:bg-gray-950 shadow-lg shadow-gray-600/10 cursor-pointer">
+    <Card className="flex bg-gray-200 dark:bg-gray-900 flex-col gap-6 rounded-2xl p-8 transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-950 shadow-lg shadow-gray-600/10 cursor-pointer">
       <CardHeader className="p-0 ">
         {
             icon ? icon : null

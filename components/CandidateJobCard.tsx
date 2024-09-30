@@ -38,7 +38,7 @@ function CandidateJobCard({
       },
       "/jobs"
     );
-    setShowJobDetailsDrawer(false);
+    setShowJobDetailsDialog(false);
   };
   // <Drawer
   // open={showJobDetailsDrawer}
@@ -68,11 +68,11 @@ function CandidateJobCard({
         <DialogContent className="drawer h-[100vh] sm:w-[90vw] min-h-max max-h-[90vh] px-2 sm:px-4 py-8 sm:py-8 ">
           <div className="flex sm:flex-row flex-col sm:justify-between sm:px-8 gap-y-3 overflow-y-scroll drawer px-2 pr-4">
             <section className="flex flex-col gap-y-3">
-              <DialogTitle className="flex flex-col gap-y-2">
-                <h1 className="text-2xl underline sm:text-3xl font-extrabold text-gray-800 dark:text-white">
+              <DialogTitle className="w-full flex flex-col gap-y-2">
+                <h1 className="text-center sm:text-start text-2xl underline sm:text-3xl font-extrabold text-gray-800 dark:text-white">
                   {jobItem?.title}
                 </h1>
-                <p className="font-bold text-gray-600">
+                <p className="mt-2 text-center sm:text-start font-bold text-gray-600">
                   {jobItem?.companyName}
                 </p>
               </DialogTitle>
@@ -84,18 +84,10 @@ function CandidateJobCard({
                   </p>
                   <span className="px-2 sm:px-4 font-medium text-justify tracking-tighter text-gray-800 dark:text-gray-300 text-[14px] sm:text-[16px]  bg-gray-200 dark:bg-gray-950">
                     {jobItem?.jobDescription}
-                    {jobItem?.jobDescription}
-                    {jobItem?.jobDescription}
-                    {jobItem?.jobDescription}
-                    {jobItem?.jobDescription}
-                    {jobItem?.jobDescription}
-                    {jobItem?.jobDescription}
-                    {jobItem?.jobDescription}
-                    {jobItem?.jobDescription}
                   </span>
                 </div>
 
-                <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-x-5">
+                <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-x-5 gap-y-3">
                   <div className="">
                     <span className="flex items-baseline gap-x-2 mt-4">
                       <p className="text-sm sm:text-lg font-bold text-gray-900 dark:text-gray-100 underline">
@@ -111,7 +103,7 @@ function CandidateJobCard({
                     </h3>
                   </div>
                   <div className="w-[150px] flex justify-center items-center sm:py-2 bg-gray-800 dark:bg-transparent border dark:border-white  rounded-[10px]">
-                    <h2 className="md:text-xl font-bold text-white ">
+                    <h2 className="md:text-xl font-bold text-white text-sm">
                       {jobItem?.type} Time
                     </h2>
                   </div>
@@ -131,7 +123,7 @@ function CandidateJobCard({
                       {skill}
                     </li>
                   ))}
-                {jobItem?.skills.split(",").map((skill) => (
+                  {jobItem?.skills.split(",").map((skill) => (
                     <li
                       key={skill}
                       className="text-center py-[1px] sm:py-2 px-2 sm:px-4 bg-gray-900 rounded-xl text-[11px] sm:text-[13px] text-gray-300"
@@ -139,13 +131,12 @@ function CandidateJobCard({
                       {skill}
                     </li>
                   ))}
-                 
                 </ul>
               </div>
             </section>
-            <div className="w-full sm:w-24 flex sm:flex-col gap-x-3 gap-y-3">
+            <div className="w-full sm:w-24 flex sm:flex-col gap-x-3 gap-y-3 pb-5">
               <Button
-                className="w-full h-6 sm:h-8 text-sm sm:py-2 px-1 sm:px-4 sm:text-lg bg-green-700 hover:bg-green-800 text-white disabled:opacity-40"
+                className="w-full h-8 sm:h-8 text-sm sm:py-2 px-1 sm:px-4 sm:text-lg bg-green-700 hover:bg-green-800 text-white disabled:opacity-40"
                 onClick={createJobApplication}
                 disabled={
                   jobApplications &&
@@ -164,7 +155,7 @@ function CandidateJobCard({
                   : "Apply"}
               </Button>
               <Button
-                className="w-full h-6 sm:h-8 text-sm sm:py-2 px-1 sm:px-4 sm:text-lg bg-red-700 hover:bg-red-800 text-white"
+                className="w-full h-8 sm:h-8 text-sm sm:py-2 px-1 sm:px-4 sm:text-lg bg-red-700 hover:bg-red-800 text-white"
                 onClick={() => setShowJobDetailsDialog(false)}
               >
                 Cancel
