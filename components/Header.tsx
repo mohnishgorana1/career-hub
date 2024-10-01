@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
 import {
   Sheet,
   SheetContent,
@@ -56,7 +57,6 @@ function Header({ profileInfo }: any) {
       label: "Feed",
       path: "/feed",
       show: true,
-
     },
     {
       label: "Membership",
@@ -72,10 +72,25 @@ function Header({ profileInfo }: any) {
 
   return (
     <div className="">
-      <header className="flex items-center justify-between h-16 w-full">
-        <Link href={"/"} className="">
-          <h3 className="dark:text-white text-3xl sm:text-4xl font-bold">
-            CAREER HUB
+      <header className="flex items-center justify-between h-16 w-[102%] sm:w-full">
+        <Link href={"/"} className="flex items-center space-x-2">
+          {/* You can include an optional icon before the text */}
+          {/* <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 text-blue-600 dark:text-white" // Icon color
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11V5a1 1 0 10-2 0v2H7a1 1 0 000 2h2v2a1 1 0 102 0V9h2a1 1 0 000-2h-2z"
+              clipRule="evenodd"
+            />
+          </svg> */}
+
+          <h3 className="dark:text-white text-[30px] sm:text-4xl font-extrabold tracking-wide brightness-125">
+            <span className="text-blue-600 dark:text-blue-400">CAREER</span>
+            <span className="text-gray-900 dark:text-white"> HUB</span>
           </h3>
         </Link>
 
@@ -83,12 +98,7 @@ function Header({ profileInfo }: any) {
         <div className="md:hidden flex items-center justify-between gap-x-2 ">
           <Sheet>
             <SheetTrigger asChild>
-              <Button>
-                <AlignJustify className="h-4 w-4" />
-                <span className="sr-only text-red-800">
-                  Toggle Navigation Menu
-                </span>
-              </Button>
+              <GiHamburgerMenu className="dark:text-white text-xl" />
             </SheetTrigger>
 
             <SheetContent side={"right"}>
