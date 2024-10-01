@@ -33,6 +33,32 @@ function Header({ profileInfo }: any) {
       show: true,
     },
     {
+      label: "Jobs",
+      path: "/jobs",
+      show: currentUser,
+    },
+    {
+      label: "Activity",
+      path: "/activity",
+      show: currentUser &&  profileInfo?.role === "candidate",
+    },
+
+    {
+      label: "Feed",
+      path: "/feed",
+      show: currentUser,
+    },
+    {
+      label: "Membership",
+      path: "/membership",
+      show: currentUser && profileInfo?.role === "recruiter",
+    },
+    {
+      label: "Account",
+      path: "/account",
+      show: currentUser,
+    },
+    {
       label: "Login",
       path: "/sign-in",
       show: !currentUser,
@@ -41,32 +67,6 @@ function Header({ profileInfo }: any) {
       label: "Register",
       path: "/sign-up",
       show: !currentUser,
-    },
-    {
-      label: "Jobs",
-      path: "/jobs",
-      show: currentUser,
-    },
-    {
-      label: "Activity",
-      path: "/activity",
-      show: profileInfo?.role === "candidate",
-    },
-
-    {
-      label: "Feed",
-      path: "/feed",
-      show: true,
-    },
-    {
-      label: "Membership",
-      path: "/membership",
-      show: profileInfo?.role === "recruiter",
-    },
-    {
-      label: "Account",
-      path: "/account",
-      show: currentUser,
     },
   ];
 
