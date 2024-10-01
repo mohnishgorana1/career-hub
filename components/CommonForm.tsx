@@ -22,7 +22,7 @@ function CommonForm({
       case "INPUT":
         content = (
           <div className="grid grid-cols-3 md:grid-cols-12 w-full items-center justify-between mt-8">
-            <Label className="col-span-1 md:col-span-3 text-sm">
+            <Label className="col-span-1 md:col-span-3 text-sm dark:text-white">
               {getCurrentControl.label}
             </Label>
             <Input
@@ -42,7 +42,7 @@ function CommonForm({
               className="col-span-2 md:col-span-9 min-w-full rounded-md h-[40px] md:h-[60px] px-4 border dark:bg-black 
                                 bg-gray-100 text-xm md:text-lg outline-none drop-shadow-sm 
                                 transition-all duration-200 ease-in-out 
-                                focus:bg-white focus:drop-shadow-lg focus-visible:outline-none 
+                                focus:bg-white dark:focus:bg-gray-900 dark:text-gray-200  focus:drop-shadow-lg focus-visible:outline-none 
                                 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
           </div>
@@ -101,7 +101,7 @@ function CommonForm({
           type={btnType || "submit"}
           className={`${
             isButtonDisabled && "opacity-50 cursor-not-allowed"
-          } flex h-11 items-center justify-center px-5`}
+          } flex h-11 items-center justify-center px-5 font-bold dark:bg-pink-700 dark:text-white dark:hover:text-pink-700 dark:border dark:border-transparent dark:hover:bg-transparent dark:hover:border-pink-700 duration-300 ease-out`}
         >
           {isShowLoadingButton ? (
             <LoaderCircle className="animate-spin" />

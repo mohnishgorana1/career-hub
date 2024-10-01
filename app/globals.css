@@ -134,7 +134,7 @@ body::-webkit-scrollbar-thumb {
 
 
 .drawer::-webkit-scrollbar {
-  width: 4px;
+  width: 1px;
 }
 
 .drawer::-webkit-scrollbar-track {

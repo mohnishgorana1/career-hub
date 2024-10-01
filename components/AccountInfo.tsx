@@ -28,6 +28,8 @@ const supabaseClient = createClient(
   NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
+
+
 function AccountInfo() {
   const { user, isLoaded } = useUser();
   const [profileInfo, setProfileInfo] = useState<any>();
@@ -167,7 +169,7 @@ function AccountInfo() {
 
   return (
     <main className="mx-auto max-w-7xl flex flex-col items-center mt-4 pt-8 w-full ">
-      <h1 className="text-gray-700 font-extrabold text-3xl md:text-4xl">
+      <h1 className="text-gray-700 font-extrabold text-3xl md:text-4xl dark:text-gray-400">
         Manage Account 
       </h1>
       <div className={`w-full h-auto flex flex-col `}>
@@ -183,14 +185,14 @@ function AccountInfo() {
                 Download Old Resume
               </Button>
               <div className="md:w-[500px] grid grid-cols-2 sm:grid-cols-3 gap-3 items-center">
-                <Label className="col-span-1 text-sm text-gray-800 font-bold">
+                <Label className="col-span-1 text-sm text-gray-800 dark:text-gray-300 font-bold">
                   Upload New Resume
                 </Label>
                 <Input
                   type={"file"}
                   placeholder="Upload Resume"
                   onChange={handleFileChange}
-                  className="col-span-1 sm:col-span-2 text-center text-xs flex items-center justify-center "
+                  className="col-span-1 sm:col-span-2 text-center text-xs flex items-center justify-center dark:text-white font-thin"
                 />
               </div>
             </>

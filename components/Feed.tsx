@@ -26,6 +26,7 @@ import {
 } from "@/lib/actions/feed.action";
 import { toast } from "sonner";
 import { timeAgo } from "@/utils/utilityFunctions";
+import { BiSolidLike } from "react-icons/bi";
 
 const supabaseClient = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
@@ -258,14 +259,20 @@ function Feed() {
   return (
     <>
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-baseline justify-between border-b pb-6 pt-24">
-          <h1 className="text-3xl font-bol tracking-tight text-gray-950">
+        <div className="flex items-center justify-between border-b pb-6 pt-24">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-950 dark:text-white">
             Explore Feed
           </h1>
           <div className="flex items-center">
             <Button
               onClick={() => setShowPostDialog(true)}
-              className="flex h-11 items-center justify-center px-5 bg-blue-600 hover:bg-blue-700"
+              className="sm:hidden flex h-9 items-center justify-center px-2 text-xs bg-blue-600 hover:bg-blue-700 dark:text-white"
+            >
+              Add New Post
+            </Button>
+            <Button
+              onClick={() => setShowPostDialog(true)}
+              className="hidden sm:flex sm:h-11 items-center justify-center sm:px-5  sm:text-sm bg-blue-600 hover:bg-blue-700 dark:text-white"
             >
               Add New Post
             </Button>
@@ -282,7 +289,7 @@ function Feed() {
                 return (
                   <div
                     key={feedPostItem._id}
-                    className="group relative -mx-4 p-6 rounded-3xl bg-gray-200 hover:bg-white hover:shadow-2xl cursor-auto shadow-2xl shadow-transparent gap-12 flex flex-col sm:flex-row items-center sm:items-start"
+                    className="group relative -mx-4 p-6 rounded-3xl bg-gray-200 dark:bg-gray-800 hover:bg-white hover:dark:bg-gray-900 hover:shadow-2xl cursor-auto shadow-2xl shadow-transparent gap-12 flex flex-col sm:flex-row items-center sm:items-start "
                   >
                     <div className="sm:w-2/6 rounded-3xl overflow-hidden transition-all duration-500 group-hover:rounded-xl">
                       <Image
@@ -296,46 +303,46 @@ function Feed() {
 
                     <div className="sm:p-2 sm:pl-0 sm:w-4/6 flex flex-col">
                       <div className="min-h-64 flex flex-col">
-                        <div className="flex justify-between items-center w-full mt-4 mb-12 ">
-                          <span className="inline-block font-bold text-2xl text-gray-900 sm:mt-0">
+                        <div className="flex justify-between items-center w-full mt-4 mb-4 ">
+                          <span className="inline-block font-bold text-2xl sm:text-3xl text-gray-900 dark:text-white sm:mt-0">
                             {feedPostItem?.userName}
                           </span>
-                          {profileInfo?.role === "recruiter" && feedPostItem?.userRole === "candidate" && (
-                            <span
-                              className="px-4 py-1 text-sm cursor-pointer border border-black bg-black hover:bg-transparent hover:text-black font-semibold duration-300 ease-out text-white rounded-3xl"
-                              onClick={() => setShowProfileModal(true)}
-                            >
-                              View Profile
-                            </span>
-                          )}
+                          {profileInfo?.role === "recruiter" &&
+                            feedPostItem?.userRole === "candidate" && (
+                              <span
+                                className="px-4 py-1 text-sm cursor-pointer border border-black rounded-3xl bg-white font-semibold text-black dark:bg-blue-500 dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black hover:bg-black  hover:text-white duration-500"
+                                onClick={() => setShowProfileModal(true)}
+                              >
+                                View Profile
+                              </span>
+                            )}
                         </div>
 
-                        <h3 className="mb-6 sm:mb-12 text-sm font-medium text-gray-750 text-justify">
+                        <h3 className="mb-6 sm:mb-12 text-sm sm:text-lg font-medium text-gray-750 text-justify dark:text-gray-300 max-h-[50vh] overflow-auto drawer pr-4">
                           {feedPostItem?.message}
                         </h3>
                       </div>
                       <div className="flex justify-between items-center">
                         <div className="flex gap-5 items-center">
-                          <Heart
-                            size={25}
-                            fill={isLikedByCurrentUser ? "#ff0000" : "none"} // Red fill if liked, else no fill
-                            stroke={
-                              isLikedByCurrentUser ? "#ff0000" : "#000000"
-                            } // Red border if liked, else black
-                            className="cursor-pointer"
+                          <BiSolidLike
                             onClick={() =>
                               handleUpdateFeedPostLikes(
                                 feedPostItem,
                                 isLikedByCurrentUser
                               )
                             }
+                            className={`${
+                              isLikedByCurrentUser
+                                ? "text-red-700 dark:text-blue-700"
+                                : "dark:text-white"
+                            } size-6 cursor-pointer`}
                           />
-                          <span className="font-semibold text-xl">
+                          <span className="font-semibold text-xl dark:text-gray-300">
                             {feedPostItem?.likes?.length}
                           </span>
                         </div>
 
-                        <p className="text-[12px]  font-semibold">
+                        <p className="text-[12px] dark:text-gray-400  font-semibold">
                           Posted : {timeAgo(feedPostItem?.createdAt)}
                         </p>
                       </div>
@@ -349,6 +356,7 @@ function Feed() {
           </div>
         </div>
       </div>
+
       {/* create post dialog */}
       <Dialog
         open={showPostDialog}

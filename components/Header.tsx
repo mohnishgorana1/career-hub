@@ -55,7 +55,8 @@ function Header({ profileInfo }: any) {
     {
       label: "Feed",
       path: "/feed",
-      show: profileInfo?.role === "candidate",
+      show: true,
+
     },
     {
       label: "Membership",
