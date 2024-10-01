@@ -39,8 +39,8 @@ function Home() {
     <Fragment>
       <section className="relative w-full h-full min-h-screen">
         <div className="w-full h-full relative">
-          <div className="flex flex-col-reverse lg:flex-row gap-10 mt-16">
-            <section className="w-full lg:w-[50%] flex flex-col md:px-2 lg:px-0 p-5 lg:p-10">
+          <div className="flex flex-col-reverse items-center lg:flex-row gap-10 mt-16 ">
+            <section className="w-full lg:w-[50%] flex flex-col items-center justify-center md:px-2 lg:px-0 p-5 lg:p-10">
               <div className="w-full flex justify-start flex-col h-auto lg:pt-7">
                 <span className="flex space-x-2">
                   <span className="block w-14 mb-2 dark:border-white border-b-2 border-gray-700"></span>
@@ -64,7 +64,16 @@ function Home() {
                 // src="https://utfs.io/f/4c9f7186-8ad0-4680-aece-a5abea608705-k6t10e.png"
                 src={"/assets/images/recruiter-hero.jpg"}
                 alt="Hero"
-                className="h-full w-full sm:h-[580px] sm:ml-20 object-contain z-10"
+                className="dark:hidden h-full w-full sm:h-[580px] sm:ml-20 object-contain z-10 "
+                width={800}
+                height={800}
+              />
+               <Image
+                // src="https://utfs.io/f/4c9f7186-8ad0-4680-aece-a5abea608705-k6t10e.png"
+                // src={"/assets/images/recruiter-hero.jpg"}
+                src={"/assets/images/businessman.png"}
+                alt="Hero"
+                className="hidden dark:flex h-full w-full sm:h-[580px] sm:ml-20 object-contain z-10 brightness-125 "
                 width={800}
                 height={800}
               />

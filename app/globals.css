@@ -141,7 +141,22 @@ body::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-.drawer::-webkit-scrollbar-thumb {
+
+.candidate-details-dialog-scrollbar::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+
+.candidate-details-dialog-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.candidate-details-dialog-scrollbar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.candidate-details-dialog-scrollbar::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }

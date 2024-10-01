@@ -57,7 +57,7 @@ function PostNewJob({ profileInfo }: { profileInfo: any }) {
 
   return (
     <div className="">
-      <Button onClick={() => setShowJobDialog(true)}>Post a New Job</Button>
+      <Button onClick={() => setShowJobDialog(true)} className="border border-transparent dark:bg-pink-700 dark:text-white dark:hover:bg-transparent dark:hover:border-pink-700 dark:hover:text-pink-700 dark:hover:shadow-sm dark:hover:shadow-pink-700 ">Post a New Job</Button>
 
       <Dialog
         open={showJobDialog}
@@ -69,23 +69,25 @@ function PostNewJob({ profileInfo }: { profileInfo: any }) {
           });
         }}
       >
-        <DialogTrigger></DialogTrigger>
-
-        <DialogContent className="sm:max-w-screen-md h-[600px] overflow-auto">
-          <DialogHeader>
-            <DialogTitle>Post New Job</DialogTitle>
-            <div className="flex gap-4 py-4">
-              <CommonForm
-                formControls={postNewJobFormControls}
-                formData={jobFormData}
-                setFormData={setJobFormData}
-                buttonText="Add"
-                btnType="submit"
-                action={postNewJob}
-                isButtonDisabled={!handlePostNewJobBtnValidation()}
-              />
-            </div>
-          </DialogHeader>
+        <DialogContent className="h-[80vh] w-[95vw] sm:w-[80vw]  overflow-auto candidate-details-dialog-scrollbar">
+          <div className="">
+            <DialogHeader>
+              <DialogTitle className="dark:text-pink-700 text-2xl sm:text-3xl text-center ">
+                Post New Job
+              </DialogTitle>
+              <div className="flex gap-4 py-4">
+                <CommonForm
+                  formControls={postNewJobFormControls}
+                  formData={jobFormData}
+                  setFormData={setJobFormData}
+                  buttonText="Add"
+                  btnType="submit"
+                  action={postNewJob}
+                  isButtonDisabled={!handlePostNewJobBtnValidation()}
+                />
+              </div>
+            </DialogHeader>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

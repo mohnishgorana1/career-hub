@@ -27,6 +27,7 @@ import {
 import { toast } from "sonner";
 import { timeAgo } from "@/utils/utilityFunctions";
 import { BiSolidLike } from "react-icons/bi";
+import { ScrollArea } from "./ui/scroll-area";
 
 const supabaseClient = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
@@ -49,6 +50,7 @@ function Feed() {
   const [allFeedPosts, setAllFeedPosts] = useState([]);
 
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [requestedUserProfile, setRequestedUserProfile] = useState();
 
   const fetchFeedData = useCallback(async () => {
     try {
@@ -221,6 +223,17 @@ function Feed() {
     document.body.removeChild(a);
   };
 
+  const fetchRequestedProfileInfo = async (userId: string) => {
+    const result = await fetchProfileAction(userId);
+    if (result) {
+      setRequestedUserProfile(result);
+      setShowProfileModal(true);
+    } else {
+      toast.error("Can't Get Profile Data");
+      setShowPostDialog(false);
+    }
+  };
+
   useEffect(() => {
     if (isLoaded && user) {
       const getProfileDetails = async () => {
@@ -303,15 +316,19 @@ function Feed() {
 
                     <div className="sm:p-2 sm:pl-0 sm:w-4/6 flex flex-col">
                       <div className="min-h-64 flex flex-col">
-                        <div className="flex justify-between items-center w-full mt-4 mb-4 ">
+                        <div className="w-full my-4 flex sm:flex-row flex-col items-baseline justify-between ">
                           <span className="inline-block font-bold text-2xl sm:text-3xl text-gray-900 dark:text-white sm:mt-0">
                             {feedPostItem?.userName}
                           </span>
                           {profileInfo?.role === "recruiter" &&
                             feedPostItem?.userRole === "candidate" && (
                               <span
-                                className="px-4 py-1 text-sm cursor-pointer border border-black rounded-3xl bg-white font-semibold text-black dark:bg-blue-500 dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black hover:bg-black  hover:text-white duration-500"
-                                onClick={() => setShowProfileModal(true)}
+                                className=" text-blue-700 font-bold underline cursor-pointer mt-1 sm:mt-0 hover:text-blue-800"
+                                onClick={() =>
+                                  fetchRequestedProfileInfo(
+                                    feedPostItem?.userId
+                                  )
+                                }
                               >
                                 View Profile
                               </span>
@@ -368,45 +385,57 @@ function Feed() {
           });
         }}
       >
-        <DialogContent className="w-[90vw] sm:w-[85vw] md:w-[75vw]">
-          <Textarea
-            name="message"
-            value={formData?.message}
-            onChange={(e) => {
-              setFormData({
-                ...formData,
-                message: e.target.value,
-              });
-            }}
-            placeholder="Write your post message here!"
-            className="border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 h-[200px] text-[20px] md:text-[25px]"
-          />
-          {formData?.imageUrl !== "" && (
-            <Image
-              src={formData?.imageUrl && formData?.imageUrl}
-              alt="image"
-              width={100}
-              height={100}
-              className={`${!formData?.imageUrl && "hidden"}`}
-            />
-          )}
-
-          <div className="flex gap-5 items-center justify-between">
-            <Label for="imageUrl">
-              <CirclePlus />
-              <Input
-                id="imageUrl"
-                type="file"
-                className="hidden"
-                onChange={handleFileOnChange}
+        <DialogContent className="w-[90vw] sm:w-[85vw] md:w-[75vw] p-0 px-2 py-4 pb-8 my-4">
+          <div className="my-6 sm:mx-2 flex flex-col justify-between items-center gap-y-4 max-h-[90vh] overflow-auto drawer">
+            <h1 className="dark:text-white font-bold text-xl sm:text-2xl">Upload Feed Post</h1>
+            
+            <section className="w-full flex flex-col gap-y-3">
+              <Textarea
+                name="message"
+                value={formData?.message}
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    message: e.target.value,
+                  });
+                }}
+                placeholder="Write your post message here!"
+                className="border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 h-[200px] sm:h-[250px] text-[15px] md:text-[25px] dark:text-white drawer bg-gray-300 dark:bg-gray-800 drawer overflow-y-scroll drawer"
               />
-            </Label>
-            <Button
-              onClick={handleCreateNewPostButton}
-              className="w-40 flex items-center justify-center px-5 bg-blue-600 hover:bg-blue-700"
-            >
-              Post
-            </Button>
+
+              {/* image */}
+              <section className="w-full min-h-max max-h-36 flex items-center flex-col gap-y-4 relative">
+                <Label for="imageUrl">
+                  <h1 className={`dark:text-white font-bold py-2 px-4 border rounded-lg border-black dark:border-white`}>
+                    {formData?.imageUrl ? "Upload Different Image" :  "Upload Image"}
+                  </h1>
+                  <Input
+                    id="imageUrl"
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileOnChange}
+                  />
+                </Label>
+                <Image
+                  src={formData?.imageUrl && formData?.imageUrl}
+                  alt="image"
+                  width={70}
+                  height={70}
+                  className={`${
+                    !formData?.imageUrl && "hidden"
+                  }`}
+                />
+              </section>
+            </section>
+
+            <div className="mt-2 sm:mt-4 w-full flex items-center justify-center">
+              <Button
+                onClick={handleCreateNewPostButton}
+                className="w-full sm:w-1/2 flex items-center justify-center px-5 bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                Post
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
@@ -415,107 +444,114 @@ function Feed() {
       <Dialog
         open={showProfileModal}
         onOpenChange={() => {
-          setShowProfileModal(false);
+          setShowProfileModal(null);
         }}
       >
-        <DialogContent className="w-[80vw] p-1 sm:p-4 my-2 sm:my-4 bg-white flex flex-col gap-[1px] text-[10px] sm:text-sm font-medium overflow-y-clip">
-          <section className="mx-auto ">
-            <Button
-              onClick={handlePreviewResume}
-              className="bg-zinc-700 hover:bg-zinc-950"
-            >
-              Click to View Resume
-            </Button>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Name</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.name}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Email</h1>
-            <p className="col-span-2 flex flex-wrap ">{profileInfo?.email}</p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Skills</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.skills}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Current Job Location</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.currentJobLocation}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Preferred Job Location</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.preferredJobLocation}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Current Salary</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.currentSalary}
-            </p>
-          </section>
+        <DialogContent className="sm:w-[90vw] mx-auto h-[95vh] p-0">
+          <div
+            className="flex flex-col gap-[1px] text-[13px] sm:text-[17px] overflow-scroll max-h-[90%] 
+          sm:m-0 bg-white dark:bg-gray-800 font-medium overflow-x-auto candidate-details-dialog-scrollbar"
+          >
+            <section className="mx-auto my-2">
+              <Button
+                onClick={handlePreviewResume}
+                className="bg-green-600 hover:bg-green-700 text-white py-1 px-2 sm:px-6 h-6 sm:h-9 my-1 mb-2"
+              >
+                Click to View Resume
+              </Button>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Name</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.name}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Email</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px] ">
+                {requestedUserProfile?.email}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Skills</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.skills}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Current Job Location</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.currentJobLocation}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Preferred Job Location</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.preferredJobLocation}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Current Salary</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.currentSalary}
+              </p>
+            </section>
 
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Current Company</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.currentCompany}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Notice Period</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.noticePeriod}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Previous Companies</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.previousCompanies}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Total Experience</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.totalExperience}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">College</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.college}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">College Location</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.collegeLocation}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Graduated Year</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.graduatedYear}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">Github Profile</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.githubProfile}
-            </p>
-          </section>
-          <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 ">
-            <h1 className="col-span-2">LinkedIn Profile</h1>
-            <p className="col-span-2 flex flex-wrap">
-              {profileInfo?.candidateInfo?.linkedInProfile}
-            </p>
-          </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Current Company</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.currentCompany}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Notice Period</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.noticePeriod}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Previous Companies</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.previousCompanies}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Total Experience</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.totalExperience}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">College</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.college}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">College Location</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.collegeLocation}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Graduated Year</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.graduatedYear}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">Github Profile</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.githubProfile}
+              </p>
+            </section>
+            <section className="grid grid-cols-4 py-1 px-2 sm:px-4 bg-gray-200 dark:bg-gray-950 dark:text-gray-100 ">
+              <h1 className="col-span-2">LinkedIn Profile</h1>
+              <p className="col-span-2 flex flex-wrap text-[11px] sm:text-[16px]">
+                {requestedUserProfile?.candidateInfo?.linkedInProfile}
+              </p>
+            </section>
+          </div>
         </DialogContent>
       </Dialog>
     </>

@@ -15,7 +15,7 @@ function HomepageButtonControls({ user, profileInfo }) {
     <div className="flex space-x-4">
       <Button
         onClick={() => router.push("/jobs")}
-        className="flex h-11 items-center justify-center px-5 font-bold dark:bg-transparent border border-transparent dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-blue-950 "
+        className="flex h-11 items-center justify-center px-3 sm:px-5 font-bold dark:bg-transparent border border-transparent dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-blue-950 "
       >
         {user
           ? profileInfo?.role === "candidate"
@@ -33,7 +33,7 @@ function HomepageButtonControls({ user, profileInfo }) {
               : "/jobs"
           )
         }
-        className="flex h-11 items-center justify-center px-5 font-bold dark:bg-transparent border border-transparent dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-blue-950 "
+        className="flex h-11 items-center justify-center px-3 sm:px-5 font-bold dark:bg-transparent border border-transparent dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-blue-950 "
       >
         {user
           ? profileInfo?.role === "candidate"

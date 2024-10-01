@@ -22,7 +22,7 @@ function CommonForm({
       case "INPUT":
         content = (
           <div className="grid grid-cols-3 md:grid-cols-12 w-full items-center justify-between mt-8">
-            <Label className="col-span-1 md:col-span-3 text-sm dark:text-white">
+            <Label className="col-span-1 md:col-span-3 text-sm dark:text-white text-start">
               {getCurrentControl.label}
             </Label>
             <Input
