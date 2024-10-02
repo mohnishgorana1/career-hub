@@ -28,8 +28,6 @@ const supabaseClient = createClient(
   NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-
-
 function AccountInfo() {
   const { user, isLoaded } = useUser();
   const [profileInfo, setProfileInfo] = useState<any>();
@@ -68,9 +66,13 @@ function AccountInfo() {
   }
 
   async function handleUploadPdfToSupabase() {
+    console.log("uploading");
+
+    const uniqueFileName = `${profileInfo?.userId}__${newResumeFile?.name}`;
+
     const { data, error } = await supabaseClient.storage
       .from("job-board-public")
-      .upload(`/public/${newResumeFile?.name}`, newResumeFile!, {
+      .upload(`/public/${uniqueFileName}`, newResumeFile!, {
         cacheControl: "3600",
         upsert: false,
       });
@@ -170,7 +172,7 @@ function AccountInfo() {
   return (
     <main className="mx-auto max-w-7xl flex flex-col items-center mt-4 pt-8 w-full ">
       <h1 className="text-gray-700 font-extrabold text-3xl md:text-4xl dark:text-gray-400">
-        Manage Account 
+        Manage Account
       </h1>
       <div className={`w-full h-auto flex flex-col `}>
         {profileInfo.role === "candidate" && (

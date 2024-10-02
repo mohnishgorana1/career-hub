@@ -18,6 +18,11 @@ import {
 } from "@/lib/supabase.config";
 import { useRouter } from "next/navigation";
 
+const supabaseClient = createClient(
+  NEXT_PUBLIC_SUPABASE_URL,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
+
 function OnBoard() {
   const router = useRouter()
   const currentAuthUser = useUser();
@@ -55,10 +60,7 @@ function OnBoard() {
   }
 
 
-  const supabaseClient = createClient(
-    NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
+
 
   function handleFileChange(e:any) {
     e.preventDefault();
@@ -66,9 +68,13 @@ function OnBoard() {
   }
 
   async function handleUploadPdfToSupabase() {
+
+    const uniqueFileName = `${profileInfo?.userId}__${file?.name}`
+
+
     const { data, error } = await supabaseClient.storage
       .from("job-board-public")
-      .upload(`/public/${file?.name}`, file!, {
+      .upload(`/public/${uniqueFileName}`, file!, {
         cacheControl: "3600",
         upsert: false,
       });

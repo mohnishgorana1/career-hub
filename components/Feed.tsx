@@ -100,10 +100,11 @@ function Feed() {
 
   const handleUploadImageToSupabase = async () => {
     console.log("uploading");
+    const uniqueFileName = `${profileInfo?.userId}__${imageData?.name}`
 
     const { data, error } = await supabaseClient.storage
       .from("job-board-public")
-      .upload(`/public/${imageData?.name}`, imageData!, {
+      .upload(`/public/${uniqueFileName}`, imageData!, {
         cacheControl: "3600",
         upsert: false,
       });
